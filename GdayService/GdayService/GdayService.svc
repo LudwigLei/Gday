@@ -1,0 +1,4 @@
+﻿<%@ ServiceHost Language="C#"
+	Service="Gday.GdayService"
+	Factory="GdayService.Infrastructure.ServiceHostFactory"
+%>
