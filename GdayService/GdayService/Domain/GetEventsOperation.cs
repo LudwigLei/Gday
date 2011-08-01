@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using Gday.Domain;
 
-namespace GdayService.Operations
+namespace Gday.Domain
 {
 	public interface IGetEventsOperation
 	{

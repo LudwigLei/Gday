@@ -1,1 +1,1 @@
-﻿<%@ Application Codebehind="Global.asax.cs" Inherits="Gday.Global" Language="C#" %>
+﻿<%@ Application Codebehind="Global.asax.cs" Inherits="GdayService.Global" Language="C#" %>

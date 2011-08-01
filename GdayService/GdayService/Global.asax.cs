@@ -2,7 +2,7 @@
 using System.Web;
 using GdayService.Infrastructure;
 
-namespace Gday
+namespace GdayService
 {
 	public class Global : HttpApplication
 	{

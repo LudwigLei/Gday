@@ -1,21 +1,22 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
 using System.ServiceModel.Description;
 using System.ServiceModel.Dispatcher;
 
-namespace GdayService.Infrastructure
+namespace Gday.Infrastructure
 {
-	class DependencyInjectionServiceBehavior : IServiceBehavior
+	public class NHibernateSessionBehaviorAttribute : Attribute, IServiceBehavior
 	{
 		public void ApplyDispatchBehavior(ServiceDescription serviceDescription, ServiceHostBase serviceHostBase)
 		{
-			foreach (var ed in serviceHostBase.ChannelDispatchers
-				.OfType<ChannelDispatcher>().SelectMany(cd => cd.Endpoints))
+			var dispatchers = serviceHostBase.ChannelDispatchers.Cast<ChannelDispatcher>();
+			foreach (var endpoint in dispatchers.SelectMany(dispatcher => dispatcher.Endpoints))
 			{
-				ed.DispatchRuntime.InstanceProvider = new DependencyInjectionInstanceProvider(
-					serviceDescription.ServiceType);
+				endpoint.DispatchRuntime.MessageInspectors.Add(
+					new NHibernateSessionInitializer());
 			}
 		}
 

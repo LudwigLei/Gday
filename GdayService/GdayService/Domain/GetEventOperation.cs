@@ -1,6 +1,5 @@
-using Gday.Domain;
 
-namespace GdayService.Operations
+namespace Gday.Domain
 {
 	public interface IGetEventOperation
 	{

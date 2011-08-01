@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace Gday
 {
 	[ServiceContract(Name = "GdayService")]
-	public interface IGdayService
+	public interface IService
 	{
 		[OperationContract]
 		Event[] GetEvents(Date date);

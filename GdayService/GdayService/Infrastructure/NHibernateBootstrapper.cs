@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using NHibernate;
+using NHibernate.Context;
 using FluentNHibernate.Cfg;
 using FluentNHibernate.Cfg.Db;
-using Gday.Data;
-using NHibernate;
 using StructureMap;
+using Gday.Data;
 
 namespace GdayService.Infrastructure
 {
@@ -12,8 +12,10 @@ namespace GdayService.Infrastructure
 		public void Initialize()
 		{
 			var sessionFactory = Configure().BuildSessionFactory();
-			ObjectFactory.Configure(config =>
-				config.For<ISession>().Use(sessionFactory.GetCurrentSession));
+			ObjectFactory.Configure(config => {
+				config.For<ISessionFactory>().Use(sessionFactory);
+				config.For<ISession>().Use(sessionFactory.GetCurrentSession);
+			});
 		}
 
 		static FluentConfiguration Configure()
@@ -23,21 +25,9 @@ namespace GdayService.Infrastructure
 					MsSqlConfiguration.MsSql2008.ConnectionString(
 						x => x.FromConnectionStringWithKey("Gday")))
 				.ExposeConfiguration(c => c
-					.SetProperty("proxyfactory.factory_class", ProxyFactoryClassKey)
-					.SetProperty("current_session_context_class", CurrentSessionContextKey))
+					.SetProperty("proxyfactory.factory_class", "NHibernate.ByteCode.Castle.ProxyFactoryFactory, NHibernate.ByteCode.Castle")
+					.SetProperty("current_session_context_class", typeof(WcfOperationSessionContext).FullName))
 				.Mappings(m => m.FluentMappings.AddFromAssemblyOf<EventMap>());
-		}
-
-		const string ProxyFactoryClassKey = "NHibernate.ByteCode.Castle.ProxyFactoryFactory, NHibernate.ByteCode.Castle";
-
-		static string CurrentSessionContextKey
-		{
-			get
-			{
-				return string.Concat(
-					typeof (NHibernateSessionContext).FullName, ", ",
-					typeof (NHibernateSessionContext).Assembly.FullName);
-			}
 		}
 	}
 }

@@ -1,5 +1,4 @@
 ﻿using Gday.Domain;
-using GdayService.Operations;
 using StructureMap;
 
 namespace GdayService.Infrastructure

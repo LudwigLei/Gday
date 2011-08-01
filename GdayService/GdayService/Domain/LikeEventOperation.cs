@@ -1,7 +1,7 @@
-﻿using Gday.Domain;
+﻿
 using NHibernate;
 
-namespace GdayService.Operations
+namespace Gday.Domain
 {
 	public interface ILikeEventOperation
 	{
