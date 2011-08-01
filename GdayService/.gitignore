@@ -7,3 +7,6 @@ _ReSharper*
 *.userprefs
 *.pidb
 *.pdb
+
+packages/*
+!packages/repositories.config
